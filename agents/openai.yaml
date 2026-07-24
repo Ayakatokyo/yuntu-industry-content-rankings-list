@@ -1,0 +1,4 @@
+interface:
+  display_name: "Yuntu Industry Content Rankings List"
+  short_description: "Retrieve raw Yuntu industry content ranking entries"
+  default_prompt: "Use $yuntu-industry-content-rankings-list to retrieve and save the raw Yuntu industry content rankings response with the requested filters."
