@@ -58,7 +58,7 @@ SHANGHAI_TIMEZONE = ZoneInfo("Asia/Shanghai")
 
 BUSINESS_PARAMS_SCHEMA = {
     "schema_type": "reference_metadata",
-    "title": "Yuntu industry content rankings list query",
+    "title": "云图行业内容榜单列表查询",
     "validation_note": (
         "Reference metadata only; fetch performs authoritative validation, "
         "including cross-field, date-window, and multi-value rules."

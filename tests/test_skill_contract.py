@@ -4,9 +4,6 @@ import sys
 import unittest
 from pathlib import Path
 
-import yaml
-
-
 ROOT = Path(__file__).resolve().parents[1]
 SKILL_PATH = ROOT / "SKILL.md"
 OPENAI_YAML_PATH = ROOT / "agents" / "openai.yaml"
@@ -22,10 +19,10 @@ class ListSkillContractTests(unittest.TestCase):
         frontmatter = re.match(r"\A---\n(.*?)\n---", skill, re.DOTALL)
 
         self.assertIsNotNone(frontmatter)
-        self.assertIn("name: yuntu-industry-content-rankings-list", frontmatter.group(1))
+        self.assertIn("name: 云图行业内容榜单列表", frontmatter.group(1))
         description = re.search(r"^description: (.+)$", frontmatter.group(1), re.MULTILINE)
         self.assertIsNotNone(description)
-        self.assertTrue(description.group(1).startswith("Use when"))
+        self.assertTrue(description.group(1).startswith("适用于"))
         self.assertNotIn("python", description.group(1).lower())
 
     def test_documents_fixed_connector_and_secure_runtime_requirements(self):
@@ -38,9 +35,9 @@ class ListSkillContractTests(unittest.TestCase):
             "YUCE_SESSION_ID",
         ):
             self.assertIn(environment_variable, skill)
-        self.assertIn("bare trusted HTTPS gateway URL", skill)
-        self.assertIn("without an IP literal, userinfo, query, or fragment", skill)
-        self.assertRegex(skill, r"(?i)credentials?.{0,80}environment")
+        self.assertIn("受信任的纯 HTTPS 网关 URL", skill)
+        self.assertIn("不得使用 IP 字面量、userinfo、查询参数或片段", skill)
+        self.assertRegex(skill, r"凭证.{0,80}环境变量")
         self.assertIn("list-accounts", skill)
         self.assertRegex(skill, r"(?i)shop_id.{0,120}list-accounts")
 
@@ -77,9 +74,9 @@ class ListSkillContractTests(unittest.TestCase):
     def test_documents_schema_as_reference_and_fetch_as_authoritative_validation(self):
         skill = self.read_skill()
 
-        self.assertRegex(skill, r"(?is)schema.{0,180}reference metadata")
-        self.assertRegex(skill, r"(?is)fetch.{0,180}authoritative validator")
-        self.assertRegex(skill, r"(?is)empty.{0,160}parameters.{0,160}page.*selection")
+        self.assertRegex(skill, r"(?s)schema.{0,180}参考元数据")
+        self.assertRegex(skill, r"(?s)fetch.{0,180}权威校验器")
+        self.assertRegex(skill, r"空参数.{0,160}页面当前选择")
 
     def test_documents_list_filter_constraints_and_enumerations(self):
         skill = self.read_skill()
@@ -88,35 +85,33 @@ class ListSkillContractTests(unittest.TestCase):
             self.assertIn(value, skill)
         self.assertIn("Asia/Shanghai", skill)
         self.assertRegex(skill, r"(?is)today-369.{0,180}today-4")
-        self.assertRegex(skill, r"(?is)44.{0,100}days")
-        self.assertRegex(skill, r"(?is)multivalue.{0,180}(comma-separated|JSON array)")
+        self.assertRegex(skill, r"44.{0,100}天")
+        self.assertRegex(skill, r"多值输入.{0,180}(逗号分隔列表|JSON 数组)")
         self.assertRegex(skill, r"(?is)SPECIFIED_BRANDS.{0,180}3.{0,80}10")
         self.assertIn("ALL_INDUSTRY", skill)
-        self.assertRegex(skill, r"(?is)enumeration.{0,200}(age|gender|crowd|ranking)")
+        self.assertRegex(skill, r"(年龄|性别|人群|榜单).{0,200}枚举值")
 
     def test_documents_raw_response_retention_and_scope_boundary(self):
         skill = self.read_skill()
 
         self.assertIn("payload", skill)
         self.assertIn("files", skill)
-        self.assertRegex(skill, r"(?is)--output.{0,160}atomically replaces.{0,120}existing")
-        self.assertRegex(skill, r"(?is)raw gateway response.{0,160}retained")
-        self.assertRegex(skill, r"(?is)no external artifacts.{0,100}retrieved")
-        self.assertRegex(skill, r"(?is)no result contents.{0,100}interpreted")
+        self.assertRegex(skill, r"(?s)--output.{0,160}原子替换.{0,120}已有")
+        self.assertRegex(skill, r"原始网关响应.{0,160}保留")
+        self.assertRegex(skill, r"不会检索外部产物")
+        self.assertRegex(skill, r"不会解读结果内容")
         for out_of_scope_term in ("video", "frames", "batch", "report", "download", "analysis"):
             self.assertNotIn(out_of_scope_term, skill.lower())
 
     def test_openai_metadata_has_required_nested_interface_fields(self):
-        metadata = yaml.safe_load(OPENAI_YAML_PATH.read_text(encoding="utf-8"))
-        interface = metadata["interface"]
+        metadata = OPENAI_YAML_PATH.read_text(encoding="utf-8")
 
-        self.assertIsInstance(interface["display_name"], str)
-        self.assertTrue(interface["display_name"].strip())
-        self.assertIsInstance(interface["short_description"], str)
-        self.assertTrue(interface["short_description"].strip())
+        self.assertRegex(metadata, r"(?m)^interface:\s*$")
+        self.assertRegex(metadata, r'(?m)^  display_name: "[^"\n]+"\s*$')
+        self.assertRegex(metadata, r'(?m)^  short_description: "[^"\n]+"\s*$')
         self.assertIn(
-            "$yuntu-industry-content-rankings-list",
-            interface["default_prompt"],
+            "$云图行业内容榜单列表",
+            metadata,
         )
 
 

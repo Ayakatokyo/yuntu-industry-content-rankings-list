@@ -1,4 +1,4 @@
 interface:
-  display_name: "Yuntu Industry Content Rankings List"
-  short_description: "Retrieve raw Yuntu industry content ranking entries"
-  default_prompt: "Use $yuntu-industry-content-rankings-list to retrieve and save the raw Yuntu industry content rankings response with the requested filters."
+  display_name: "云图行业内容榜单列表"
+  short_description: "获取云图行业内容榜单的原始条目"
+  default_prompt: "使用 $云图行业内容榜单列表，按请求的筛选条件获取并保存云图行业内容榜单原始响应。"
